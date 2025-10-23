@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BlogDetailsCard from "@/components/modules/Blogs/BlogDetailsCard";
+import { getBlogById } from "@/services/PostServices";
 
 export const generateStaticParams = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`);
@@ -16,9 +17,7 @@ export const generateMetadata = async ({
 }) => {
   const { blogId } = await params;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post/${blogId}`);
-
-  const blog = await res.json();
+  const blog = await getBlogById(blogId);
 
   return {
     title: blog?.title,
@@ -33,9 +32,7 @@ const BlogDetailsPage = async ({
 }) => {
   const { blogId } = await params;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post/${blogId}`);
-
-  const blog = await res.json();
+  const blog = await getBlogById(blogId);
 
   return (
     <div className='py-30 px-4 max-w-7xl mx-auto'>
