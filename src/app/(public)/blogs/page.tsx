@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BlogCard from "@/components/modules/Blogs/BlogCard";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All Blogs | Next Blog",
+  description:
+    "Browse all blog posts on web development, Next.js, React, and more. Stay updated with the latest tutorials and articles",
+};
 
 const AllBlogsPage = async () => {
   // fetch data with SSR system
