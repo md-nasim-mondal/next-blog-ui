@@ -1,9 +1,9 @@
-import React from "react";
+import CreateBlogForm from "@/components/modules/Blogs/CreateBlogForm";
 
 const CreateBlog = () => {
   return (
-    <div>
-      <h1 className="text-center text-xl">Create Blog</h1>
+    <div className='w-full flex justify-center items-center'>
+      <CreateBlogForm />
     </div>
   );
 };
