@@ -3,6 +3,7 @@ import BlogCard from "@/components/modules/Blogs/BlogCard";
 import Hero from "@/components/modules/Home/Hero";
 
 export default async function HomePage() {
+  // fetch data with ISR system
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`, {
     next: {
       revalidate: 30,
