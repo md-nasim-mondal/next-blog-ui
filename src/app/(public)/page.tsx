@@ -6,7 +6,8 @@ export default async function HomePage() {
   // fetch data with ISR system
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`, {
     next: {
-      revalidate: 30,
+      // revalidate: 30,
+      tags: ["BLOGS"],
     },
   });
   const { data: blogs } = await res.json();
