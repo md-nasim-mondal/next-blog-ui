@@ -1,4 +1,5 @@
 import GoogleProvider from "next-auth/providers/google";
+
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -11,3 +12,5 @@ export const authOptions = {
     signIn: "/login",
   },
 };
+
+// Pa$$w0rd!

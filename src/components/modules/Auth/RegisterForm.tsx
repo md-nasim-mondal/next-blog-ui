@@ -1,7 +1,5 @@
 "use client";
-
-import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -13,16 +11,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { register } from "@/actions/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-type RegisterFormValues = {
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-};
+// type RegisterFormValues = {
+//   name: string;
+//   email: string;
+//   phone: string;
+//   password: string;
+// };
 
 export default function RegisterForm() {
-  const form = useForm<RegisterFormValues>({
+  const form = useForm<FieldValues>({
     defaultValues: {
       name: "",
       email: "",
@@ -31,27 +32,36 @@ export default function RegisterForm() {
     },
   });
 
-  const onSubmit = (values: RegisterFormValues) => {
-    console.log("Form submitted:", values);
+  const router = useRouter();
+
+  const onSubmit = async (values: FieldValues) => {
+    try {
+      const res = await register(values);
+      if (res?.id) {
+        toast.success("User Register Successfully!");
+        router.push("/login");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className='flex justify-center items-center min-h-screen bg-gray-50'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-full max-w-md bg-white p-8 rounded-lg shadow-md"
-        >
-          <h2 className="text-3xl font-bold text-center">Register Now</h2>
+          className='space-y-6 w-full max-w-md bg-white p-8 rounded-lg shadow-md'>
+          <h2 className='text-3xl font-bold text-center'>Register Now</h2>
           {/* Name */}
           <FormField
             control={form.control}
-            name="name"
+            name='name'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your name" {...field} />
+                  <Input placeholder='Enter your name' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -60,14 +70,14 @@ export default function RegisterForm() {
           {/* Email */}
           <FormField
             control={form.control}
-            name="email"
+            name='email'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    type="email"
-                    placeholder="Enter your email"
+                    type='email'
+                    placeholder='Enter your email'
                     {...field}
                   />
                 </FormControl>
@@ -78,12 +88,12 @@ export default function RegisterForm() {
           {/* Phone */}
           <FormField
             control={form.control}
-            name="phone"
+            name='phone'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your phone number" {...field} />
+                  <Input placeholder='Enter your phone number' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -92,14 +102,14 @@ export default function RegisterForm() {
           {/* Password */}
           <FormField
             control={form.control}
-            name="password"
+            name='password'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
-                    type="password"
-                    placeholder="Enter your password"
+                    type='password'
+                    placeholder='Enter your password'
                     {...field}
                   />
                 </FormControl>
@@ -108,13 +118,13 @@ export default function RegisterForm() {
             )}
           />
 
-          <Button type="submit" className="w-full mt-2">
+          <Button type='submit' className='w-full mt-2'>
             Register
           </Button>
 
-          <p className="text-center text-sm text-gray-500 mt-4">
+          <p className='text-center text-sm text-gray-500 mt-4'>
             Already have an account?{" "}
-            <Link href="/login" className="text-blue-500 hover:underline">
+            <Link href='/login' className='text-blue-500 hover:underline'>
               Login
             </Link>
           </p>
