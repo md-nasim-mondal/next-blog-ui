@@ -1,5 +1,5 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { useForm, type FieldValues } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -13,22 +13,35 @@ import {
 } from "@/components/ui/form";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+import { login } from "@/actions/auth";
+import { toast } from "sonner";
 
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
+// type LoginFormValues = {
+//   email: string;
+//   password: string;
+// };
 
 export default function LoginForm() {
-  const form = useForm<LoginFormValues>({
+  const form = useForm<FieldValues>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-    console.log("Login submitted:", values);
+  const onSubmit = async (values: FieldValues) => {
+    try {
+      console.log("Login submitted:", values);
+      const res = await login(values);
+      console.log(res, "from line: 36");
+      if (res.id) {
+        toast.success("User Logged in Successfully!");
+      } else {
+        toast.error("User Login Failed!");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSocialLogin = (provider: "google" | "github") => {
